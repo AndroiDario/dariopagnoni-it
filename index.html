@@ -29,16 +29,16 @@
     <meta property="og:url" content="https://dariopagnoni.it/" />
     <meta property="og:locale" content="it_IT" />
     <meta property="og:site_name" content="Dario Pagnoni" />
-    <!-- Sostituisci questo link testuale con l'URL effettivo dell'immagine per la condivisione sociale (es. 1200x630px) -->
     <meta property="og:image" content="https://dariopagnoni.it/og-image.jpg" />
+    <meta property="og:image:width" content="840" />
+    <meta property="og:image:height" content="840" />
 
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Dario Pagnoni" />
     <meta
       name="twitter:description"
       content="Strategia, marketing, analytics. Un punto di accesso semplice per capire cosa faccio e dove trovarmi."
     />
-    <!-- Sostituisci questo link testuale con l'URL effettivo dell'immagine -->
     <meta name="twitter:image" content="https://dariopagnoni.it/og-image.jpg" />
 
     <style>
@@ -50,10 +50,32 @@
         --muted: #475569;
         --line: rgba(15, 23, 42, 0.08);
         --accent: #0f172a;
+        --accent-fg: #ffffff;
         --accent-soft: #e2e8f0;
         --shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
         --radius: 24px;
         --max: 1120px;
+        --body-bg-start: #ffffff;
+        --header-bg: rgba(248, 250, 252, 0.72);
+        --btn-secondary-bg: rgba(255, 255, 255, 0.7);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0f172a;
+          --surface: rgba(30, 41, 59, 0.8);
+          --surface-strong: #1e293b;
+          --text: #f1f5f9;
+          --muted: #94a3b8;
+          --line: rgba(241, 245, 249, 0.08);
+          --accent: #e2e8f0;
+          --accent-fg: #0f172a;
+          --accent-soft: #1e293b;
+          --shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+          --body-bg-start: #1e293b;
+          --header-bg: rgba(15, 23, 42, 0.8);
+          --btn-secondary-bg: rgba(30, 41, 59, 0.7);
+        }
       }
 
       * { box-sizing: border-box; }
@@ -64,7 +86,7 @@
         color: var(--text);
         background:
           radial-gradient(circle at top left, rgba(148, 163, 184, 0.16), transparent 28%),
-          linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
+          linear-gradient(180deg, var(--body-bg-start) 0%, var(--bg) 100%);
         line-height: 1.6;
       }
 
@@ -81,8 +103,8 @@
         top: 0;
         z-index: 10;
         backdrop-filter: blur(14px);
-        background: rgba(248, 250, 252, 0.72);
-        border-bottom: 1px solid rgba(15, 23, 42, 0.05);
+        background: var(--header-bg);
+        border-bottom: 1px solid var(--line);
       }
 
       .nav {
@@ -170,14 +192,14 @@
       }
 
       .button {
-        color: #ffffff;
+        color: var(--accent-fg);
         background: var(--accent);
         box-shadow: 0 10px 22px rgba(15, 23, 42, 0.18);
       }
 
       .button-secondary {
         border: 1px solid var(--line);
-        background: rgba(255, 255, 255, 0.7);
+        background: var(--btn-secondary-bg);
       }
 
       .button:hover,
