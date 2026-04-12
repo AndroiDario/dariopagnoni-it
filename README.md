@@ -1,35 +1,22 @@
-[README.md](https://github.com/user-attachments/files/26640958/README.md)
 # dariopagnoni.it
 
 Sito personale statico, minimale e senza backend.
 
 ## Struttura
 
-- `public/index.html` -> sito
-- `public/404.html` -> redirect alla home
-- `firebase.json` -> configurazione Firebase Hosting
-- `.firebaserc` -> alias del progetto Firebase
+- `index.html` — sito single-page completo (HTML + CSS + JS inline)
+- `favicon.svg` — favicon SVG con iniziali DP
+- `og-image.jpg` — immagine OpenGraph per social sharing
 
-## Deploy rapido
+## Caratteristiche
 
-1. Crea un progetto su Firebase.
-2. Installa la Firebase CLI:
-   ```bash
-   npm install -g firebase-tools
-   ```
-3. Esegui login:
-   ```bash
-   firebase login
-   ```
-4. Sostituisci `INSERISCI_IL_TUO_FIREBASE_PROJECT_ID` nel file `.firebaserc`.
-5. Dalla cartella del progetto esegui:
-   ```bash
-   firebase deploy --only hosting
-   ```
-6. In Firebase Hosting collega `dariopagnoni.it` e `www.dariopagnoni.it`.
+- Palette: nero/antracite/bianco con tocchi di verde salvia e ambra
+- Dark mode con toggle manuale + rispetto preferenze di sistema
+- Micro-animazioni di scroll (IntersectionObserver)
+- Google Tag Manager (GTM-MDT32R8S)
+- SEO: meta tags, OpenGraph, Twitter Cards, JSON-LD structured data
+- Responsive, accessibile, zero dipendenze esterne
 
-## Note
+## Deploy
 
-- Il sito e volutamente statico: niente backend, database o CMS.
-- Se vuoi usare il sito come laboratorio AI, ti conviene iterare prima su testo e design, non su funzioni inutili.
-- Verifica e aggiorna il link LinkedIn nel file `public/index.html` se necessario.
+Commit e push su GitHub, deploy via GitHub Pages o hosting statico a scelta.
