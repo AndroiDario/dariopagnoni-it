@@ -19,6 +19,56 @@
         }
       })();
     </script>
+    <!-- Consent Mode V2 defaults must run before Google Tag Manager -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+
+      (function() {
+        var cookieName = 'dp_cookie_consent=';
+        var consentVersion = '2026-06-22-v1';
+        var categories = { statistics: false, marketing: false };
+        var parts = document.cookie ? document.cookie.split('; ') : [];
+
+        for (var i = 0; i < parts.length; i += 1) {
+          if (parts[i].indexOf(cookieName) === 0) {
+            try {
+              var saved = JSON.parse(decodeURIComponent(parts[i].slice(cookieName.length)));
+              if (saved && saved.version === consentVersion && saved.categories) {
+                categories.statistics = saved.categories.statistics === true;
+                categories.marketing = saved.categories.marketing === true;
+              }
+            } catch(e) {}
+            break;
+          }
+        }
+
+        gtag('consent', 'default', {
+          ad_storage: 'denied',
+          ad_user_data: 'denied',
+          ad_personalization: 'denied',
+          analytics_storage: 'denied',
+          wait_for_update: 500
+        });
+        gtag('set', 'ads_data_redaction', true);
+        gtag('set', 'url_passthrough', false);
+
+        if (categories.statistics || categories.marketing) {
+          gtag('consent', 'update', {
+            ad_storage: categories.marketing ? 'granted' : 'denied',
+            ad_user_data: categories.marketing ? 'granted' : 'denied',
+            ad_personalization: categories.marketing ? 'granted' : 'denied',
+            analytics_storage: categories.statistics ? 'granted' : 'denied'
+          });
+          gtag('set', 'ads_data_redaction', categories.marketing !== true);
+        }
+      })();
+    </script>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MDT32R8S');</script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Messaggio inviato — Dario Pagnoni</title>
@@ -26,6 +76,8 @@
     <meta name="robots" content="noindex, follow" />
     <link rel="canonical" href="https://dariopagnoni.it/grazie.html" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/assets/cmp.css" />
+    <script src="/assets/cmp.js" defer></script>
     <style>
       :root,
       [data-theme="light"] {
@@ -143,6 +195,19 @@
         width: 22px;
         height: 22px;
       }
+
+      .legal-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 24px;
+        color: var(--text-secondary);
+        font-size: 0.88rem;
+      }
+
+      .legal-links a {
+        color: inherit;
+      }
     </style>
   </head>
   <body>
@@ -158,6 +223,11 @@
       <div class="actions">
         <a class="btn btn-primary" href="/">Torna al sito</a>
         <a class="btn btn-ghost" href="https://www.linkedin.com/in/dariopagnoni/" target="_blank" rel="noreferrer">LinkedIn</a>
+      </div>
+      <div class="legal-links">
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/cookie-policy.html">Cookie Policy</a>
+        <button class="dp-cmp-preferences" type="button" data-cmp-open>Preferenze cookie</button>
       </div>
     </main>
   </body>

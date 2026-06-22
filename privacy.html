@@ -1,6 +1,56 @@
 <!doctype html>
 <html lang="it">
   <head>
+    <!-- Consent Mode V2 defaults must run before Google Tag Manager -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+
+      (function() {
+        var cookieName = 'dp_cookie_consent=';
+        var consentVersion = '2026-06-22-v1';
+        var categories = { statistics: false, marketing: false };
+        var parts = document.cookie ? document.cookie.split('; ') : [];
+
+        for (var i = 0; i < parts.length; i += 1) {
+          if (parts[i].indexOf(cookieName) === 0) {
+            try {
+              var saved = JSON.parse(decodeURIComponent(parts[i].slice(cookieName.length)));
+              if (saved && saved.version === consentVersion && saved.categories) {
+                categories.statistics = saved.categories.statistics === true;
+                categories.marketing = saved.categories.marketing === true;
+              }
+            } catch(e) {}
+            break;
+          }
+        }
+
+        gtag('consent', 'default', {
+          ad_storage: 'denied',
+          ad_user_data: 'denied',
+          ad_personalization: 'denied',
+          analytics_storage: 'denied',
+          wait_for_update: 500
+        });
+        gtag('set', 'ads_data_redaction', true);
+        gtag('set', 'url_passthrough', false);
+
+        if (categories.statistics || categories.marketing) {
+          gtag('consent', 'update', {
+            ad_storage: categories.marketing ? 'granted' : 'denied',
+            ad_user_data: categories.marketing ? 'granted' : 'denied',
+            ad_personalization: categories.marketing ? 'granted' : 'denied',
+            analytics_storage: categories.statistics ? 'granted' : 'denied'
+          });
+          gtag('set', 'ads_data_redaction', categories.marketing !== true);
+        }
+      })();
+    </script>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MDT32R8S');</script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Privacy Policy — Dario Pagnoni</title>
@@ -8,6 +58,8 @@
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://dariopagnoni.it/privacy.html" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/assets/cmp.css" />
+    <script src="/assets/cmp.js" defer></script>
     <style>
       :root {
         color-scheme: light dark;
@@ -110,6 +162,12 @@
         color: var(--text-secondary);
         font-size: 0.92rem;
       }
+      .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 8px;
+      }
     </style>
   </head>
   <body>
@@ -140,7 +198,8 @@
           <ul>
             <li>dati tecnici di navigazione, come indirizzo IP, informazioni sul dispositivo, browser, sistema operativo, data e ora della richiesta;</li>
             <li>dati generati dall’interazione con il sito e con i suoi contenuti;</li>
-            <li>dati eventualmente raccolti da strumenti di analisi del traffico e da servizi tecnici di terze parti utilizzati per il funzionamento e il miglioramento del sito;</li>
+            <li>dati raccolti da strumenti di analisi del traffico, solo quando viene prestato il relativo consenso tramite la gestione cookie;</li>
+            <li>preferenze tecniche, come scelta del tema e preferenze cookie salvate nel browser;</li>
             <li>dati forniti volontariamente attraverso il modulo di contatto, come nome, indirizzo email e contenuto del messaggio.</li>
           </ul>
           <p class="note">Nel sito non sono presenti aree riservate. Il modulo di contatto è facoltativo e richiede solo i dati necessari a rispondere al messaggio.</p>
@@ -151,32 +210,41 @@
           <p>I dati possono essere trattati per:</p>
           <ul>
             <li>consentire la corretta erogazione tecnica del sito e garantirne sicurezza, stabilità e manutenzione;</li>
-            <li>analizzare in forma statistica l’utilizzo del sito, il traffico e le interazioni con i contenuti;</li>
-            <li>migliorare l’esperienza di navigazione, la qualità dei contenuti e le prestazioni del sito;</li>
+            <li>salvare preferenze tecniche richieste dall’utente, come tema e scelte cookie;</li>
+            <li>analizzare in forma statistica l’utilizzo del sito, il traffico e le interazioni con i contenuti, solo previo consenso;</li>
+            <li>gestire eventuali funzionalità di marketing o personalizzazione, solo previo consenso specifico;</li>
             <li>ricevere, gestire e rispondere alle richieste inviate tramite il modulo di contatto.</li>
           </ul>
         </section>
 
         <section>
           <h2>Base giuridica</h2>
-          <p>Il trattamento avviene, a seconda dei casi, per il perseguimento del legittimo interesse del titolare alla gestione, sicurezza e ottimizzazione del sito, nonché per l’adempimento di eventuali obblighi di legge.</p>
+          <p>Il trattamento dei dati tecnici necessari alla pubblicazione, sicurezza e manutenzione del sito avviene sulla base del legittimo interesse del titolare e, ove applicabile, dell’esecuzione di misure richieste dall’utente.</p>
+          <p>Il trattamento dei dati inviati tramite il modulo di contatto avviene per rispondere alla richiesta dell’utente. L’uso di cookie o strumenti di statistica, marketing e personalizzazione avviene sulla base del consenso, che può essere prestato, modificato o revocato in qualsiasi momento.</p>
         </section>
 
         <section>
           <h2>Strumenti utilizzati e soggetti coinvolti</h2>
-          <p>Il sito utilizza strumenti tecnici e servizi di terze parti che possono trattare dati di navigazione per finalità infrastrutturali e statistiche.</p>
+          <p>Il sito utilizza strumenti tecnici e servizi di terze parti per finalità infrastrutturali, statistiche e di gestione dei tag.</p>
           <ul>
-            <li><strong>Google Tag Manager</strong>, utilizzato per la gestione centralizzata di script e tag del sito;</li>
-            <li><strong>Google Analytics 4</strong>, utilizzato per analisi statistiche del traffico e delle interazioni con il sito;</li>
+            <li><strong>CMP proprietaria</strong>, utilizzata per raccogliere e conservare le preferenze cookie in un cookie tecnico di prima parte;</li>
+            <li><strong>Google Tag Manager</strong>, utilizzato per la gestione centralizzata dei tag del sito e configurato con Google Consent Mode V2;</li>
+            <li><strong>Google Analytics 4</strong>, utilizzato per analisi statistiche del traffico e delle interazioni con il sito solo se l’utente presta consenso alla categoria Statistiche;</li>
             <li><strong>Netlify</strong>, utilizzato per hosting, pubblicazione del sito e raccolta tecnica delle richieste inviate tramite Netlify Forms.</li>
           </ul>
           <p>Il sito contiene inoltre collegamenti verso servizi esterni, come LinkedIn, Instagram e il sito di VEDA. L’eventuale accesso a tali servizi avviene secondo le rispettive informative privacy, che si applicano autonomamente.</p>
         </section>
 
         <section>
+          <h2>Cookie e preferenze</h2>
+          <p>Il sito distingue tra cookie necessari, statistiche e marketing. I cookie necessari sono usati per il funzionamento tecnico e per ricordare preferenze richieste dall’utente. Le categorie Statistiche e Marketing sono disattivate per impostazione predefinita e vengono attivate solo in caso di consenso.</p>
+          <p>È possibile consultare il dettaglio degli strumenti e modificare le scelte dalla <a href="/cookie-policy.html">Cookie Policy</a> o dal comando “Preferenze cookie” presente nel footer.</p>
+        </section>
+
+        <section>
           <h2>Modalità del trattamento e conservazione</h2>
           <p>I dati sono trattati con strumenti elettronici e misure organizzative adeguate alla natura del sito.</p>
-          <p>I tempi di conservazione possono variare in base alla tipologia del dato, alle impostazioni dei servizi utilizzati e a eventuali obblighi normativi. I dati tecnici e statistici sono conservati per il tempo strettamente necessario alle finalità per cui vengono raccolti e gestiti. I messaggi ricevuti tramite il modulo di contatto sono conservati per il tempo necessario a gestire la richiesta e l’eventuale relazione successiva.</p>
+          <p>I tempi di conservazione possono variare in base alla tipologia del dato, alle impostazioni dei servizi utilizzati e a eventuali obblighi normativi. Le preferenze cookie sono conservate per 180 giorni. I dati statistici trattati da Google Analytics 4 seguono le impostazioni di conservazione configurate nel relativo servizio. I messaggi ricevuti tramite il modulo di contatto sono conservati per il tempo necessario a gestire la richiesta e l’eventuale relazione successiva.</p>
         </section>
 
         <section>
@@ -200,7 +268,12 @@
 
     <footer>
       <div class="wrap">
-        © 2026 Dario Pagnoni
+        <div>© 2026 Dario Pagnoni</div>
+        <div class="footer-links">
+          <a href="/">Sito</a>
+          <a href="/cookie-policy.html">Cookie Policy</a>
+          <button class="dp-cmp-preferences" type="button" data-cmp-open>Preferenze cookie</button>
+        </div>
       </div>
     </footer>
   </body>

@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <!-- Consent Mode V2 defaults must run before Google Tag Manager -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+
+      (function() {
+        var cookieName = 'dp_cookie_consent=';
+        var consentVersion = '2026-06-22-v1';
+        var categories = { statistics: false, marketing: false };
+        var parts = document.cookie ? document.cookie.split('; ') : [];
+
+        for (var i = 0; i < parts.length; i += 1) {
+          if (parts[i].indexOf(cookieName) === 0) {
+            try {
+              var saved = JSON.parse(decodeURIComponent(parts[i].slice(cookieName.length)));
+              if (saved && saved.version === consentVersion && saved.categories) {
+                categories.statistics = saved.categories.statistics === true;
+                categories.marketing = saved.categories.marketing === true;
+              }
+            } catch(e) {}
+            break;
+          }
+        }
+
+        gtag('consent', 'default', {
+          ad_storage: 'denied',
+          ad_user_data: 'denied',
+          ad_personalization: 'denied',
+          analytics_storage: 'denied',
+          wait_for_update: 500
+        });
+        gtag('set', 'ads_data_redaction', true);
+        gtag('set', 'url_passthrough', false);
+
+        if (categories.statistics || categories.marketing) {
+          gtag('consent', 'update', {
+            ad_storage: categories.marketing ? 'granted' : 'denied',
+            ad_user_data: categories.marketing ? 'granted' : 'denied',
+            ad_personalization: categories.marketing ? 'granted' : 'denied',
+            analytics_storage: categories.statistics ? 'granted' : 'denied'
+          });
+          gtag('set', 'ads_data_redaction', categories.marketing !== true);
+        }
+      })();
+    </script>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MDT32R8S');</script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cookie Policy — Dario Pagnoni</title>
+    <meta name="description" content="Cookie Policy e gestione preferenze del sito dariopagnoni.it" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://dariopagnoni.it/cookie-policy.html" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/assets/cmp.css" />
+    <script src="/assets/cmp.js" defer></script>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #fafaf8;
+        --surface: #ffffff;
+        --text: #1a1a1a;
+        --text-secondary: #555;
+        --line: rgba(0, 0, 0, 0.08);
+        --sage: #7a9a6d;
+        --max: 900px;
+        --font: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #161616;
+          --surface: #202020;
+          --text: #e8e6e3;
+          --text-secondary: #b3b3b3;
+          --line: rgba(255, 255, 255, 0.10);
+          --sage: #a3b18a;
+        }
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        font-family: var(--font);
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.7;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      a { color: inherit; }
+      .wrap {
+        width: min(calc(100% - 40px), var(--max));
+        margin: 0 auto;
+      }
+      .topbar {
+        border-bottom: 1px solid var(--line);
+        background: color-mix(in srgb, var(--surface) 84%, transparent);
+      }
+      .topbar .wrap {
+        min-height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .brand {
+        font-weight: 700;
+        text-decoration: none;
+      }
+      .back {
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+        text-decoration: none;
+      }
+      main {
+        padding: 56px 0 80px;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(2rem, 5vw, 3rem);
+        line-height: 1.05;
+        letter-spacing: -0.04em;
+      }
+      .lead {
+        max-width: 760px;
+        margin: 0 0 36px;
+        color: var(--text-secondary);
+      }
+      section {
+        margin: 0 0 18px;
+        padding: 28px 24px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--surface);
+      }
+      h2 {
+        margin: 0 0 12px;
+        color: var(--sage);
+        font-size: 1.1rem;
+        letter-spacing: -0.02em;
+      }
+      p {
+        margin: 0 0 12px;
+      }
+      ul {
+        margin: 0 0 0 20px;
+        padding: 0;
+      }
+      li + li { margin-top: 8px; }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 16px;
+        font-size: 0.94rem;
+      }
+      th,
+      td {
+        border-top: 1px solid var(--line);
+        padding: 12px 10px;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        color: var(--text);
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      td {
+        color: var(--text-secondary);
+      }
+      code {
+        color: var(--text);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.9em;
+      }
+      .note {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+      }
+      .policy-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 18px;
+      }
+      .policy-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 10px 18px;
+        background: var(--text);
+        color: var(--bg);
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.9rem;
+        font-weight: 800;
+        text-decoration: none;
+      }
+      footer {
+        padding: 0 0 48px;
+        color: var(--text-secondary);
+        font-size: 0.92rem;
+      }
+      .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 8px;
+      }
+      @media (max-width: 760px) {
+        table,
+        thead,
+        tbody,
+        th,
+        td,
+        tr {
+          display: block;
+        }
+        thead {
+          display: none;
+        }
+        tr {
+          border-top: 1px solid var(--line);
+          padding: 10px 0;
+        }
+        td {
+          border: 0;
+          padding: 6px 0;
+        }
+        td::before {
+          content: attr(data-label) ": ";
+          color: var(--text);
+          font-weight: 700;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="wrap">
+        <a class="brand" href="/">Dario Pagnoni</a>
+        <a class="back" href="/">Torna al sito</a>
+      </div>
+    </header>
+
+    <main>
+      <div class="wrap">
+        <h1>Cookie Policy</h1>
+        <p class="lead">
+          Questa informativa spiega quali cookie e strumenti simili sono usati su
+          <strong>dariopagnoni.it</strong>, con quali finalità e come puoi gestire o revocare il consenso.
+        </p>
+
+        <section>
+          <h2>Titolare e contatti</h2>
+          <p>Il titolare del trattamento è Dario Pagnoni.</p>
+          <p>Email di contatto: <a href="mailto:info@dariopagnoni.it">info@dariopagnoni.it</a></p>
+        </section>
+
+        <section>
+          <h2>Categorie di cookie e strumenti</h2>
+          <p>Il sito usa tre categorie di preferenze:</p>
+          <ul>
+            <li><strong>Necessari</strong>: servono al funzionamento tecnico del sito e alla conservazione delle tue preferenze. Sono sempre attivi.</li>
+            <li><strong>Statistiche</strong>: consentono di misurare visite e interazioni tramite Google Analytics 4. Sono attivi solo con il tuo consenso.</li>
+            <li><strong>Marketing</strong>: consentono segnali pubblicitari, personalizzazione Google o futuri tag marketing. Sono attivi solo con il tuo consenso.</li>
+          </ul>
+          <div class="policy-actions">
+            <button class="policy-action" type="button" data-cmp-open>Gestisci preferenze cookie</button>
+          </div>
+        </section>
+
+        <section>
+          <h2>Elenco degli strumenti</h2>
+          <p class="note">L’elenco riflette l’implementazione attuale del sito e il container Google Tag Manager pubblico rilevato al momento dell’aggiornamento.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Nome / strumento</th>
+                <th>Categoria</th>
+                <th>Fornitore</th>
+                <th>Finalità</th>
+                <th>Durata</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="Nome / strumento"><code>dp_cookie_consent</code></td>
+                <td data-label="Categoria">Necessario</td>
+                <td data-label="Fornitore">dariopagnoni.it</td>
+                <td data-label="Finalità">Memorizza le preferenze espresse nel banner e nel pannello di gestione cookie.</td>
+                <td data-label="Durata">180 giorni</td>
+              </tr>
+              <tr>
+                <td data-label="Nome / strumento"><code>theme</code> in localStorage</td>
+                <td data-label="Categoria">Necessario / preferenza interfaccia</td>
+                <td data-label="Fornitore">dariopagnoni.it</td>
+                <td data-label="Finalità">Ricorda la scelta del tema chiaro o scuro.</td>
+                <td data-label="Durata">Fino a cancellazione da parte del browser o dell’utente</td>
+              </tr>
+              <tr>
+                <td data-label="Nome / strumento">Google Tag Manager <code>GTM-MDT32R8S</code></td>
+                <td data-label="Categoria">Gestione tag</td>
+                <td data-label="Fornitore">Google Ireland Limited / Google LLC</td>
+                <td data-label="Finalità">Gestisce il caricamento dei tag del sito e riceve lo stato del consenso tramite Google Consent Mode V2.</td>
+                <td data-label="Durata">Non installa cookie propri tramite questo sito</td>
+              </tr>
+              <tr>
+                <td data-label="Nome / strumento">Google Analytics 4 <code>_ga</code>, <code>_ga_*</code></td>
+                <td data-label="Categoria">Statistiche</td>
+                <td data-label="Fornitore">Google Ireland Limited / Google LLC</td>
+                <td data-label="Finalità">Misura traffico, pagine visitate e interazioni, inclusa la compilazione del form dopo l’invio. Opera con Consent Mode V2.</td>
+                <td data-label="Durata">Fino a 2 anni secondo configurazione GA4, solo con consenso statistiche</td>
+              </tr>
+              <tr>
+                <td data-label="Nome / strumento">Segnali marketing Google e futuri tag advertising</td>
+                <td data-label="Categoria">Marketing</td>
+                <td data-label="Fornitore">Google o altri fornitori indicati in futuri aggiornamenti</td>
+                <td data-label="Finalità">Categoria predisposta per advertising, personalizzazione e misurazione marketing. Al momento non sono stati rilevati tag advertising dedicati nel container pubblico.</td>
+                <td data-label="Durata">Solo se attivati in futuro e previo consenso marketing</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section>
+          <h2>Google Consent Mode V2</h2>
+          <p>
+            Il sito usa Google Consent Mode V2 in modalità Advanced. Per impostazione predefinita,
+            prima di una scelta dell’utente, i consensi <code>analytics_storage</code>,
+            <code>ad_storage</code>, <code>ad_user_data</code> e <code>ad_personalization</code>
+            sono impostati su <code>denied</code>.
+          </p>
+          <p>
+            Se acconsenti alle statistiche, <code>analytics_storage</code> viene aggiornato a
+            <code>granted</code>. Se acconsenti al marketing, vengono aggiornati a
+            <code>granted</code> anche <code>ad_storage</code>, <code>ad_user_data</code> e
+            <code>ad_personalization</code>. Se revochi il consenso statistiche, il sito tenta anche
+            di rimuovere i cookie Analytics leggibili dal browser.
+          </p>
+        </section>
+
+        <section>
+          <h2>Come modificare o revocare il consenso</h2>
+          <p>
+            Puoi modificare o revocare le preferenze in qualsiasi momento usando il link
+            “Preferenze cookie” presente nel footer o il pulsante qui sotto.
+          </p>
+          <div class="policy-actions">
+            <button class="policy-action" type="button" data-cmp-open>Apri preferenze cookie</button>
+          </div>
+          <p class="note">
+            Puoi inoltre eliminare cookie e dati locali dalle impostazioni del browser. In quel caso
+            il sito mostrerà nuovamente il banner alla visita successiva.
+          </p>
+        </section>
+
+        <section>
+          <h2>Aggiornamenti</h2>
+          <p>
+            La presente Cookie Policy può essere aggiornata in caso di modifiche tecniche,
+            normative o di configurazione dei servizi usati dal sito.
+          </p>
+          <p class="note">Ultimo aggiornamento: 22 giugno 2026.</p>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <div>© 2026 Dario Pagnoni</div>
+        <div class="footer-links">
+          <a href="/">Sito</a>
+          <a href="/privacy.html">Privacy Policy</a>
+          <button class="dp-cmp-preferences" type="button" data-cmp-open>Preferenze cookie</button>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

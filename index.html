@@ -21,13 +21,56 @@
         }
       })();
     </script>
-    <!-- Google Tag Manager -->
+    <!-- Consent Mode V2 defaults must run before Google Tag Manager -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+
+      (function() {
+        var cookieName = 'dp_cookie_consent=';
+        var consentVersion = '2026-06-22-v1';
+        var categories = { statistics: false, marketing: false };
+        var parts = document.cookie ? document.cookie.split('; ') : [];
+
+        for (var i = 0; i < parts.length; i += 1) {
+          if (parts[i].indexOf(cookieName) === 0) {
+            try {
+              var saved = JSON.parse(decodeURIComponent(parts[i].slice(cookieName.length)));
+              if (saved && saved.version === consentVersion && saved.categories) {
+                categories.statistics = saved.categories.statistics === true;
+                categories.marketing = saved.categories.marketing === true;
+              }
+            } catch(e) {}
+            break;
+          }
+        }
+
+        gtag('consent', 'default', {
+          ad_storage: 'denied',
+          ad_user_data: 'denied',
+          ad_personalization: 'denied',
+          analytics_storage: 'denied',
+          wait_for_update: 500
+        });
+        gtag('set', 'ads_data_redaction', true);
+        gtag('set', 'url_passthrough', false);
+
+        if (categories.statistics || categories.marketing) {
+          gtag('consent', 'update', {
+            ad_storage: categories.marketing ? 'granted' : 'denied',
+            ad_user_data: categories.marketing ? 'granted' : 'denied',
+            ad_personalization: categories.marketing ? 'granted' : 'denied',
+            analytics_storage: categories.statistics ? 'granted' : 'denied'
+          });
+          gtag('set', 'ads_data_redaction', categories.marketing !== true);
+        }
+      })();
+    </script>
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-MDT32R8S');</script>
-    <!-- End Google Tag Manager -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Dario Pagnoni — Strategia, persone, visione</title>
@@ -39,6 +82,8 @@
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://dariopagnoni.it/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/assets/cmp.css" />
+    <script src="/assets/cmp.js" defer></script>
     <meta name="theme-color" content="#141414" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#fafaf8" media="(prefers-color-scheme: light)" />
 
@@ -613,7 +658,9 @@
 
       .footer-links {
         display: flex;
+        flex-wrap: wrap;
         gap: 18px;
+        justify-content: flex-end;
       }
 
       .footer a:hover { color: var(--text); }
@@ -768,11 +815,6 @@
     </script>
   </head>
   <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MDT32R8S"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-
     <header class="site-header">
       <div class="daily-ticker" role="region" tabindex="0">
         <span class="sr-only" id="dailyTickerSummary">Dati del giorno in aggiornamento.</span>
@@ -982,7 +1024,8 @@
 
                 <p class="form-note">
                   Inviando il messaggio accetti il trattamento dei dati secondo la
-                  <a href="/privacy.html">Privacy Policy</a>.
+                  <a href="/privacy.html">Privacy Policy</a> e la
+                  <a href="/cookie-policy.html">Cookie Policy</a>.
                 </p>
 
                 <button class="btn btn-primary" type="submit">Invia messaggio</button>
@@ -1001,6 +1044,8 @@
           <a href="https://www.linkedin.com/in/dariopagnoni/" target="_blank" rel="noreferrer">LinkedIn</a>
           <a href="https://www.instagram.com/dariopagnoni/" target="_blank" rel="noreferrer">Instagram</a>
           <a href="/privacy.html">Privacy</a>
+          <a href="/cookie-policy.html">Cookie</a>
+          <button class="dp-cmp-preferences" type="button" data-cmp-open>Preferenze cookie</button>
         </div>
       </div>
     </footer>

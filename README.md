@@ -7,6 +7,8 @@ Sito personale statico, minimale e senza backend.
 - `index.html` — sito single-page completo (HTML + CSS + JS inline)
 - `grazie.html` — pagina di conferma per l'invio del form di contatto
 - `privacy.html` — informativa privacy
+- `cookie-policy.html` — cookie policy e dettagli sulle preferenze
+- `assets/cmp.css` / `assets/cmp.js` — CMP proprietaria e gestione preferenze cookie
 - `favicon.svg` — favicon SVG con iniziali DP
 - `og-image.jpg` — immagine OpenGraph per social sharing
 
@@ -15,7 +17,8 @@ Sito personale statico, minimale e senza backend.
 - Palette: nero/antracite/bianco con tocchi di verde salvia e ambra
 - Dark mode con toggle manuale + rispetto preferenze di sistema
 - Micro-animazioni di scroll (IntersectionObserver)
-- Google Tag Manager (GTM-MDT32R8S)
+- Google Tag Manager (GTM-MDT32R8S) con Google Consent Mode V2 Advanced
+- CMP statica con categorie Necessari, Statistiche e Marketing
 - Form di contatto statico gestito con Netlify Forms
 - SEO: meta tags, OpenGraph, Twitter Cards, JSON-LD structured data
 - Responsive, accessibile, zero dipendenze esterne
@@ -23,6 +26,12 @@ Sito personale statico, minimale e senza backend.
 ## Deploy
 
 Commit e push su GitHub, deploy tramite Netlify.
+
+## CMP e Consent Mode
+
+Le pagine caricano prima i default di Google Consent Mode V2 (`denied` per analytics e advertising), poi il container GTM. La CMP salva le scelte nel cookie tecnico `dp_cookie_consent` per 180 giorni e consente di modificarle dal link “Preferenze cookie”.
+
+Quando si aggiungono nuovi tag in GTM, verificare che siano coerenti con le categorie esposte nella Cookie Policy e che rispettino i consensi `analytics_storage`, `ad_storage`, `ad_user_data` e `ad_personalization`.
 
 ## Netlify Forms
 
