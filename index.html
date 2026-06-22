@@ -140,6 +140,67 @@
         border-bottom: 1px solid var(--line);
       }
 
+      .daily-ticker {
+        border-bottom: 1px solid var(--line);
+        color: var(--text-secondary);
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        overflow: hidden;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .daily-ticker:focus .daily-ticker-track,
+      .daily-ticker:focus-within .daily-ticker-track,
+      .daily-ticker:hover .daily-ticker-track {
+        animation-play-state: paused;
+      }
+
+      .daily-ticker-inner {
+        display: flex;
+        min-height: 32px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .daily-ticker-track {
+        align-items: center;
+        animation: ticker-scroll 52s linear infinite;
+        display: flex;
+        flex-shrink: 0;
+        min-width: 100%;
+      }
+
+      .daily-ticker-text {
+        align-items: center;
+        display: inline-flex;
+        gap: 18px;
+        padding-right: 18px;
+      }
+
+      .daily-ticker-text span {
+        display: inline-flex;
+        align-items: center;
+        gap: 18px;
+      }
+
+      .daily-ticker-text span::after {
+        color: var(--muted);
+        content: "/";
+        font-weight: 500;
+        opacity: 0.7;
+      }
+
+      .daily-ticker-text span:last-child::after {
+        content: "";
+      }
+
+      @keyframes ticker-scroll {
+        from { transform: translateX(0); }
+        to { transform: translateX(-50%); }
+      }
+
       .nav {
         display: flex;
         align-items: center;
@@ -494,6 +555,14 @@
 
       /* ── Responsive ── */
       @media (max-width: 768px) {
+        .daily-ticker {
+          font-size: 0.72rem;
+        }
+
+        .daily-ticker-inner {
+          min-height: 30px;
+        }
+
         .hero { padding: 64px 0 40px; }
 
         .card-grid {
@@ -516,6 +585,24 @@
         .reveal { opacity: 1; transform: none; transition: none; }
         .reveal-stagger > * { opacity: 1; transform: none; transition: none; }
         *, *::before, *::after { transition-duration: 0.01ms !important; }
+
+        .daily-ticker {
+          white-space: normal;
+        }
+
+        .daily-ticker-inner {
+          padding: 8px 0;
+        }
+
+        .daily-ticker-track {
+          animation: none;
+          flex-wrap: wrap;
+          gap: 6px 18px;
+        }
+
+        .daily-ticker-clone {
+          display: none;
+        }
       }
     </style>
 
@@ -552,6 +639,17 @@
     <!-- End Google Tag Manager (noscript) -->
 
     <header class="site-header">
+      <div class="daily-ticker" role="region" tabindex="0">
+        <span class="sr-only" id="dailyTickerSummary">Dati del giorno in aggiornamento.</span>
+        <div class="wrap daily-ticker-inner">
+          <div class="daily-ticker-track" id="dailyTicker" aria-hidden="true">
+            <span class="daily-ticker-text">Oggi</span>
+          </div>
+          <div class="daily-ticker-track daily-ticker-clone" id="dailyTickerClone" aria-hidden="true">
+            <span class="daily-ticker-text">Oggi</span>
+          </div>
+        </div>
+      </div>
       <div class="wrap nav">
         <a class="brand" href="#top">Dario Pagnoni</a>
         <div class="nav-right">
@@ -719,7 +817,136 @@
 
     <script>
       // Year
-      document.getElementById('year').textContent = new Date().getFullYear();
+      const today = new Date();
+
+      document.getElementById('year').textContent = today.getFullYear();
+
+      function getIsoWeek(date) {
+        const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+        const day = utcDate.getUTCDay() || 7;
+        utcDate.setUTCDate(utcDate.getUTCDate() + 4 - day);
+        const yearStart = new Date(Date.UTC(utcDate.getUTCFullYear(), 0, 1));
+        return Math.ceil((((utcDate - yearStart) / 86400000) + 1) / 7);
+      }
+
+      function getDayOfYear(date) {
+        const start = new Date(date.getFullYear(), 0, 0);
+        const diff = date - start + ((start.getTimezoneOffset() - date.getTimezoneOffset()) * 60000);
+        return Math.floor(diff / 86400000);
+      }
+
+      function getZodiacSign(date) {
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const signs = [
+          { name: 'Capricorno', from: [12, 22] },
+          { name: 'Sagittario', from: [11, 22] },
+          { name: 'Scorpione', from: [10, 23] },
+          { name: 'Bilancia', from: [9, 23] },
+          { name: 'Vergine', from: [8, 23] },
+          { name: 'Leone', from: [7, 23] },
+          { name: 'Cancro', from: [6, 21] },
+          { name: 'Gemelli', from: [5, 21] },
+          { name: 'Toro', from: [4, 20] },
+          { name: 'Ariete', from: [3, 21] },
+          { name: 'Pesci', from: [2, 19] },
+          { name: 'Acquario', from: [1, 20] },
+          { name: 'Capricorno', from: [1, 1] }
+        ];
+
+        return signs.find((sign) => month > sign.from[0] || (month === sign.from[0] && day >= sign.from[1])).name;
+      }
+
+      function getMoonPhase(date) {
+        const synodicMonth = 29.530588853;
+        const knownNewMoon = Date.UTC(2000, 0, 6, 18, 14);
+        const current = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 12);
+        const daysSince = (current - knownNewMoon) / 86400000;
+        const age = ((daysSince % synodicMonth) + synodicMonth) % synodicMonth;
+        const phases = [
+          { limit: 1.84566, name: 'Luna nuova' },
+          { limit: 5.53699, name: 'Luna crescente' },
+          { limit: 9.22831, name: 'Primo quarto' },
+          { limit: 12.91963, name: 'Gibbosa crescente' },
+          { limit: 16.61096, name: 'Luna piena' },
+          { limit: 20.30228, name: 'Gibbosa calante' },
+          { limit: 23.99361, name: 'Ultimo quarto' },
+          { limit: 27.68493, name: 'Luna calante' }
+        ];
+        const phase = phases.find((item) => age < item.limit);
+
+        return phase ? phase.name : 'Luna nuova';
+      }
+
+      function getSeasonInfo(date) {
+        const year = date.getFullYear();
+        const events = [
+          { name: 'equinozio di primavera', date: new Date(year, 2, 20), nextSeason: 'primavera' },
+          { name: 'solstizio d’estate', date: new Date(year, 5, 21), nextSeason: 'estate' },
+          { name: 'equinozio d’autunno', date: new Date(year, 8, 22), nextSeason: 'autunno' },
+          { name: 'solstizio d’inverno', date: new Date(year, 11, 21), nextSeason: 'inverno' },
+          { name: 'equinozio di primavera', date: new Date(year + 1, 2, 20), nextSeason: 'primavera' }
+        ];
+        let currentSeason = 'inverno';
+
+        for (const event of events) {
+          if (date < event.date) {
+            return {
+              season: currentSeason,
+              nextEvent: event.name,
+              nextEventDate: event.date
+            };
+          }
+
+          currentSeason = event.nextSeason;
+        }
+
+        return {
+          season: 'inverno',
+          nextEvent: events[events.length - 1].name,
+          nextEventDate: events[events.length - 1].date
+        };
+      }
+
+      function formatDate(date) {
+        return new Intl.DateTimeFormat('it-IT', {
+          weekday: 'long',
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        }).format(date);
+      }
+
+      function formatShortDate(date) {
+        return new Intl.DateTimeFormat('it-IT', {
+          day: 'numeric',
+          month: 'long'
+        }).format(date);
+      }
+
+      function renderDailyTicker(date) {
+        const ticker = document.getElementById('dailyTicker');
+        const tickerClone = document.getElementById('dailyTickerClone');
+        const tickerSummary = document.getElementById('dailyTickerSummary');
+        const seasonInfo = getSeasonInfo(date);
+        const items = [
+          formatDate(date),
+          'settimana ' + getIsoWeek(date),
+          'fase lunare: ' + getMoonPhase(date),
+          'segno zodiacale: ' + getZodiacSign(date),
+          'giorno ' + getDayOfYear(date) + ' dell’anno',
+          'stagione astronomica: ' + seasonInfo.season,
+          'prossimo evento: ' + seasonInfo.nextEvent + ' ' + formatShortDate(seasonInfo.nextEventDate)
+        ];
+        const content = items.map((item) => '<span>' + item + '</span>').join('');
+        const repeatedContent = '<span class="daily-ticker-text">' + content + '</span><span class="daily-ticker-text">' + content + '</span>';
+
+        tickerSummary.textContent = items.join('. ') + '.';
+        ticker.innerHTML = repeatedContent;
+        tickerClone.innerHTML = repeatedContent;
+      }
+
+      renderDailyTicker(today);
 
       // Theme toggle — init already done in <head> script, here we only handle clicks
       (function() {
