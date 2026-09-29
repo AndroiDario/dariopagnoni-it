@@ -430,6 +430,12 @@
         line-height: 1.7;
       }
 
+      .section-text a {
+        color: var(--text);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
       /* ── Grid cards ── */
       .card-grid {
         display: grid;
@@ -792,18 +798,22 @@
       {
         "@context": "https://schema.org",
         "@type": "Person",
+        "@id": "https://www.veda.consulting/persone/dario-pagnoni#person",
         "name": "Dario Pagnoni",
         "url": "https://dariopagnoni.it/",
         "jobTitle": "Consulente strategico, marketing e analytics",
         "description": "Strategia, marketing digitale, analytics. Consulente, docente, esploratore.",
         "sameAs": [
           "https://www.linkedin.com/in/dariopagnoni/",
-          "https://www.veda.consulting/",
+          "https://www.veda.consulting/persone/dario-pagnoni",
+          "https://academy.veda.consulting/docenti/dario-pagnoni",
+          "https://www.marketinginbocconi.com/author/dario-pagnoni",
           "https://www.instagram.com/dariopagnoni/"
         ],
         "worksFor": {
           "@type": "Organization",
-          "name": "VEDA",
+          "@id": "https://www.veda.consulting/#organization",
+          "name": "VEDA Consulting",
           "url": "https://www.veda.consulting/"
         },
         "knowsAbout": ["Marketing Strategy", "Digital Analytics", "Advertising", "AI", "Business Consulting"],
@@ -887,7 +897,8 @@
           <p class="section-text reveal">
             Lavoro su strategia, marketing digitale, advertising e analytics.
             Metto ordine, collego obiettivi a strumenti, trasformo complessità in azioni.
-            Lo faccio con VEDA, la società di consulenza che ho fondato.
+            Lo faccio con VEDA, la società di consulenza che ho fondato, e lo insegno nei corsi
+            online di <a href="https://academy.veda.consulting/">VEDA Academy</a>.
           </p>
           <div class="card-grid reveal-stagger">
             <article class="card">
@@ -1041,6 +1052,8 @@
         <div>© <span id="year"></span> Dario Pagnoni</div>
         <div class="footer-links">
           <a href="https://www.veda.consulting/" target="_blank" rel="noreferrer">VEDA</a>
+          <a href="https://academy.veda.consulting/" target="_blank" rel="noreferrer">VEDA Academy</a>
+          <a href="https://academy.veda.consulting/libro" target="_blank" rel="noreferrer">Il libro</a>
           <a href="https://www.linkedin.com/in/dariopagnoni/" target="_blank" rel="noreferrer">LinkedIn</a>
           <a href="https://www.instagram.com/dariopagnoni/" target="_blank" rel="noreferrer">Instagram</a>
           <a href="/privacy.html">Privacy</a>
