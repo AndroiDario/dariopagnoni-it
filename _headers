@@ -1,0 +1,11 @@
+# Netlify custom headers — https://docs.netlify.com/routing/headers/
+# CSP note: the site uses inline scripts (theme init, Consent Mode defaults,
+# GTM loader, JSON-LD, page script) and inline <style>, so script-src and
+# style-src keep 'unsafe-inline'. Google hosts cover GTM, GA4, Google Ads
+# conversion tracking and Consent Mode traffic.
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://*.googleadservices.com https://*.g.doubleclick.net https://*.google.com https://*.google.it; style-src 'self' 'unsafe-inline' https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://*.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://*.googleadservices.com https://*.g.doubleclick.net https://*.google.com https://*.google.it; img-src 'self' data: https:; font-src 'self' data:; frame-src https://www.googletagmanager.com https://*.googletagmanager.com https://*.g.doubleclick.net https://*.google.com https://*.google.it; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()

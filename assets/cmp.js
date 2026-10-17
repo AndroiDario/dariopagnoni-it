@@ -78,8 +78,8 @@
     window.gtag('set', 'ads_data_redaction', consent.categories.marketing !== true);
     window.gtag('set', 'url_passthrough', false);
 
-    if (consent.categories.statistics !== true) {
-      removeAnalyticsCookies();
+    if (consent.categories.statistics !== true || consent.categories.marketing !== true) {
+      removeTrackingCookies(consent.categories);
     }
   }
 
@@ -107,18 +107,35 @@
     document.cookie = name + '=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/' + domainPart + '; SameSite=Lax';
   }
 
-  function removeAnalyticsCookies() {
+  function isAnalyticsCookie(name) {
+    return name === '_ga' || name.indexOf('_ga_') === 0 || name === '_gid' || name.indexOf('_gat') === 0;
+  }
+
+  function isMarketingCookie(name) {
+    return name.indexOf('_gcl_') === 0;
+  }
+
+  // Removes Google Analytics cookies when the Statistiche consent is withdrawn
+  // and Google Ads/_gcl_* cookies when the Marketing consent is withdrawn.
+  function removeTrackingCookies(categories) {
+    var removeStatistics = !categories || categories.statistics !== true;
+    var removeMarketing = !categories || categories.marketing !== true;
     var names = [];
     var cookieParts = document.cookie ? document.cookie.split('; ') : [];
     for (var i = 0; i < cookieParts.length; i += 1) {
       var name = cookieParts[i].split('=')[0];
-      if (name === '_ga' || name.indexOf('_ga_') === 0 || name === '_gid' || name.indexOf('_gat') === 0) {
+      if ((removeStatistics && isAnalyticsCookie(name)) || (removeMarketing && isMarketingCookie(name))) {
         names.push(name);
       }
     }
 
-    if (names.indexOf('_ga') === -1) names.push('_ga');
-    if (names.indexOf('_gid') === -1) names.push('_gid');
+    if (removeStatistics) {
+      if (names.indexOf('_ga') === -1) names.push('_ga');
+      if (names.indexOf('_gid') === -1) names.push('_gid');
+    }
+    if (removeMarketing) {
+      if (names.indexOf('_gcl_au') === -1) names.push('_gcl_au');
+    }
 
     var domains = getDomainVariants();
     names.forEach(function(name) {
