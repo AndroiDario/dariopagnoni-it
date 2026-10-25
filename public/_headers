@@ -1,4 +1,4 @@
-# Netlify custom headers — https://docs.netlify.com/routing/headers/
+# Header degli asset statici (Cloudflare Workers Static Assets, formato _headers).
 # CSP note: the site uses inline scripts (theme init, Consent Mode defaults,
 # GTM loader, JSON-LD, page script) and inline <style>, so script-src and
 # style-src keep 'unsafe-inline'. Google hosts cover GTM, GA4, Google Ads

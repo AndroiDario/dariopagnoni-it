@@ -1,8 +1,10 @@
 # dariopagnoni.it
 
-Sito personale statico, minimale e senza backend.
+Sito personale statico su Cloudflare Workers Static Assets, con un Worker minimo per il modulo di contatto e il rimando del dominio principale a `www`.
 
 ## Struttura
+
+Le pagine stanno in `public/`, servite con il nome esatto (`html_handling: "none"`: `/privacy.html` resta `/privacy.html`).
 
 - `index.html` — sito single-page completo (HTML + CSS + JS inline)
 - `grazie.html` — pagina di conferma per l'invio del form di contatto
@@ -19,13 +21,15 @@ Sito personale statico, minimale e senza backend.
 - Micro-animazioni di scroll (IntersectionObserver)
 - Google Tag Manager (GTM-MDT32R8S) con Google Consent Mode V2 Advanced
 - CMP statica con categorie Necessari, Statistiche e Marketing
-- Form di contatto statico gestito con Netlify Forms
+- Modulo di contatto inviato via email con Resend dal Worker (`src/worker.ts`)
 - SEO: meta tags, OpenGraph, Twitter Cards, JSON-LD structured data
-- Responsive, accessibile, zero dipendenze esterne
+- Responsive, accessibile, nessuna dipendenza nel browser
 
 ## Deploy
 
-Commit e push su GitHub, deploy tramite Netlify.
+Worker `dariopagnoni-it` sull'account Cloudflare «DP | Dario Pagnoni», collegato a GitHub con Workers Builds: ogni push su `main` pubblica (build vuoto, deploy `npx wrangler deploy`, `NODE_VERSION=22`). Domini custom: `www.dariopagnoni.it` e `dariopagnoni.it`; il Worker rimanda il secondo al primo con un 301. `_headers` vale per gli asset; le risposte del Worker (redirect, modulo) portano i propri header.
+
+In locale: `npm ci`, `npm run dev` (http://localhost:8787), `npm test`, `npm run check`.
 
 ## CMP e Consent Mode
 
@@ -33,18 +37,14 @@ Le pagine caricano prima i default di Google Consent Mode V2 (`denied` per analy
 
 Quando si aggiungono nuovi tag in GTM, verificare che siano coerenti con le categorie esposte nella Cookie Policy e che rispettino i consensi `analytics_storage`, `ad_storage`, `ad_user_data` e `ad_personalization`.
 
-## Netlify Forms
+## Modulo di contatto
 
-Il form di contatto in `index.html` usa Netlify Forms nativo:
+`POST /grazie.html` arriva al Worker, che:
 
-- `name="contatto"` identifica il form nella dashboard Netlify.
-- `data-netlify="true"` permette a Netlify di rilevarlo durante il deploy.
-- `netlify-honeypot="bot-field"` abilita un campo anti-spam invisibile agli utenti.
-- `action="/grazie.html"` porta alla pagina di conferma dopo l'invio.
+- accetta solo richieste dalla stessa origine;
+- tratta il campo nascosto `bot-field` come trappola: se è compilato risponde come a un invio riuscito, senza spedire;
+- valida `nome` (fino a 200 caratteri), `email` e `messaggio` (fino a 5000);
+- invia con Resend a `CONTACT_TO`, mittente `CONTACT_FROM`, `reply_to` sull'indirizzo del visitatore;
+- risponde 303 su `/grazie.html`, oppure su `/?errore=campi#contatti` o `/?errore=invio#contatti`, dove la pagina mostra il messaggio.
 
-Dopo il primo deploy su Netlify:
-
-1. Apri il sito pubblicato e invia un messaggio di test dal form.
-2. Vai in Netlify → sito `dariopagnoni.it` → Forms e verifica che compaia il form `contatto`.
-3. In Forms → `contatto` → Notifications, aggiungi una notifica email verso l'indirizzo che vuoi usare per ricevere i messaggi.
-4. Valuta l'attivazione di spam filtering o reCAPTCHA se dovesse arrivare spam, lasciando intanto l'honeypot attivo come prima protezione leggera.
+Destinatario e mittente sono variabili in `wrangler.jsonc`. Il segreto `RESEND_API_KEY` (chiave «sending access» sul dominio dariopagnoni.it) si imposta dal pannello: Worker → Settings → Variables and Secrets. Senza chiave il modulo risponde con l'errore di invio.
