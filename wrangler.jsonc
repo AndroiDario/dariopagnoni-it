@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "dariopagnoni-it",
+  "account_id": "51b4eb533e83540e1469e71e062cc126",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-10-05",
+  "workers_dev": false,
+  "preview_urls": false,
+  "vars": {
+    "CANONICAL_HOST": "www.dariopagnoni.it",
+    "CONTACT_TO": "dario.pagnoni@gmail.com",
+    "CONTACT_FROM": "Sito dariopagnoni.it <contatti@dariopagnoni.it>"
+  },
+  // Tutto passa dal Worker (redirect a www, modulo); gli asset si servono con il nome esatto, .html compreso.
+  "assets": { "directory": "./public", "binding": "ASSETS", "run_worker_first": true, "html_handling": "none", "not_found_handling": "none" },
+  "observability": { "enabled": true }
+}

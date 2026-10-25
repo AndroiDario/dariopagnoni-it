@@ -636,6 +636,12 @@
         line-height: 1.5;
       }
 
+      .form-error {
+        color: #b64e43;
+        font-size: 0.9rem;
+        line-height: 1.5;
+      }
+
       .form-note a {
         color: var(--text-secondary);
         text-decoration: underline;
@@ -1010,10 +1016,8 @@
                 name="contatto"
                 method="POST"
                 action="/grazie.html"
-                data-netlify="true"
-                netlify-honeypot="bot-field"
               >
-                <input type="hidden" name="form-name" value="contatto" />
+                <p class="form-error" id="form-error" role="alert" hidden></p>
                 <p class="bot-field">
                   <label>Non compilare questo campo: <input name="bot-field" /></label>
                 </p>
@@ -1064,6 +1068,16 @@
     </footer>
 
     <script>
+      // Esito del modulo: il Worker torna qui con ?errore=campi oppure ?errore=invio.
+      const formError = new URLSearchParams(location.search).get('errore');
+      if (formError) {
+        const box = document.getElementById('form-error');
+        box.textContent = formError === 'campi'
+          ? 'Controlla nome, email e messaggio: servono tutti e tre.'
+          : 'Il messaggio non è partito. Riprova tra poco o scrivimi su LinkedIn.';
+        box.hidden = false;
+      }
+
       // Year
       const today = new Date();
 

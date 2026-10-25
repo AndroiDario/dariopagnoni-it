@@ -1,0 +1,4 @@
+# Il sito è migrato su Cloudflare (Worker dariopagnoni-it). Netlify salta ogni nuovo build e
+# continua a servire l'ultimo deploy finché il sito non viene eliminato.
+[build]
+  ignore = "exit 0"
